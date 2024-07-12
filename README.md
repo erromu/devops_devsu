@@ -1,2 +1,2 @@
 # devops_devsu
-General repository to implement devops
+Generic repository to implement devops
