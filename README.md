@@ -1,3 +1,5 @@
+[![Django CI](https://github.com/erromu/devops_devsu/actions/workflows/django.yml/badge.svg)](https://github.com/erromu/devops_devsu/actions/workflows/django.yml)
+
 # Demo Devops Python
 
 This is a simple application to be used in the technical test of DevOps.
