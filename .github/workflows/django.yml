@@ -30,7 +30,7 @@ jobs:
     - name: Run Tests
       run: |
         export PYTHONPATH=src
-        python manage.py test || exit 1
+        python ./src/manage.py test || exit 1
 
     - name: Build and Push the Docker image
       env:
