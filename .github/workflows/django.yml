@@ -25,10 +25,11 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r ./src/requirements.txt
 
     - name: Run Tests
       run: |
+        export PYTHONPATH=src
         python manage.py test || exit 1
 
     - name: Build and Push the Docker image
@@ -36,6 +37,6 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       run: |
-        docker build . --file Dockerfile --tag erromu/devsu-demo:0.1
+        docker build --file Dockerfile --tag erromu/devsu-demo:0.1 .
         echo $DOCKER_TOKEN | docker login  --username $DOCKER_USER --password-stdin
         docker push erromu/devsu-demo:0.1

@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-exo", "pipefail", "-c"]
 
 RUN mkdir -p /app
 
-COPY ./requirements.txt /app
+COPY ./src/requirements.txt /app
 
 WORKDIR /app
 
@@ -29,11 +29,11 @@ RUN apt-get update \
 RUN mkdir -p /data \
     && python -m pip install -r /app/requirements.txt ;
 
-COPY api /app/api
-COPY demo /app/demo
-COPY manage.py /app
-COPY .env /app
-COPY app.sh /app.sh
+COPY ./src/api /app/api
+COPY ./src/demo /app/demo
+COPY ./src/manage.py /app
+COPY ./src/.env /app
+COPY ./src/app.sh /app.sh
 
 RUN chmod +x /app.sh
 
