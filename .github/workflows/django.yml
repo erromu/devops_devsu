@@ -37,5 +37,5 @@ jobs:
         DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       run: |
         docker build . --file Dockerfile --tag erromu/devsu-demo:0.1
-        docker login  --username $DOCKER_USER --password $DOCKER_TOKEN
+        echo $DOCKER_TOKEN | docker login  --username $DOCKER_USER --password-stdin
         docker push erromu/devsu-demo:0.1
