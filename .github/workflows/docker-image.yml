@@ -20,6 +20,6 @@ jobs:
         DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        docker build . --file Dockerfile --tag erromu/devsu-demo:$(date +%s)
+        docker build . --file Dockerfile --tag erromu/devsu-demo:0.1
         docker login registry-1.docker.io -u $DOCKER_USER -p $DOCKER_TOKEN
-        docker push erromu/devsu-demo:$(date +%s)
+        docker push erromu/devsu-demo:0.1

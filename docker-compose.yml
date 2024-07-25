@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   devsu:
-    image: devsu:0.1
+    image: erromu/devsu-demo:0.1
 
     build:
       context: ./
