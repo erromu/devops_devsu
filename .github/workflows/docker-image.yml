@@ -14,5 +14,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: Build and Push the Docker image
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_TOKEN }}
+        DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+        if: github.ref == 'refs/heads/master' && job.status == 'success'
+        run: |
+          docker build . --file Dockerfile --tag erromu/devsu-demo:$(date +%s)
+          docker login registry-1.docker.io -u $DOCKER_USER -p $DOCKER_TOKEN
+          docker push erromu/devsu-demo:$(date +%s)
