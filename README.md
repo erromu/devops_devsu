@@ -2,9 +2,41 @@
 
 # Demo Devops Python
 
-This is a simple application to be used in the technical test of DevOps.
+This is a simple DevOps technical test using python app.
 
-## Getting Started
+![Pipeline Diagram](diagram.svg)
+
+
+## Pipeline Notes
+
+An actions workflow (pipeline) is triggered upon a push, that will perform the steps in the above diagram:
+- build
+- test
+- lint the code (since the app is a demo and may has issues, errors and warnings gotten do not stop the pipeline)
+- build a docker image
+- publish the docker image to docker.io
+- deploy the app to an ephemeral minikube into github actions
+
+
+The kubernetes setup adds a volume to share the sqlite db across all pod replicas.  An horizontal scalling setup was added to have min 2 replicas and maximun 4.  Note that minikube deployment seems to cut off scaling to 1 replica instead.  Since this is a demo and minikube deployment is an ephemeral aproach just to testing, that behaviour is going to be accepted as ok.
+
+Try to applying the k8s.yml in a localhost minikube if you want to see all replicas in action.
+
+Clone this repository, then call next command (minikube must be running in your localhost)
+
+```bash
+kubectl  apply -f k8s.yaml
+```
+
+A deployment to docker swarm is included too (docker must be installed in your localhost with an active swarm)
+```bash
+docker stack deploy -c docker-compose.yml devsu
+```
+
+For the sake of this demo the original source code was copied as it is into this repository. That to trigger a push on any hypotetical  commit/push for the original app.  Maybe adding a git sub-module should do the job too.
+
+
+## Getting Started (demo app)
 
 ### Prerequisites
 
