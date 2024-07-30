@@ -32,6 +32,12 @@ jobs:
         export PYTHONPATH=src
         python ./src/manage.py test || exit 1
 
+    - name: Lint with Ruff
+      run: |
+        pip install ruff
+        ruff check --output-format=github ./src
+      continue-on-error: true
+
     - name: Build and Push the Docker image
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -40,3 +46,20 @@ jobs:
         docker build --file Dockerfile --tag erromu/devsu-demo:0.1 .
         echo $DOCKER_TOKEN | docker login  --username $DOCKER_USER --password-stdin
         docker push erromu/devsu-demo:0.1
+
+    - name: Start minikube
+      uses: medyagh/setup-minikube@latest
+    - name: Try the cluster!
+      run: kubectl get pods -A
+    - name: Deploy to minikube
+      run: |
+        kubectl apply -f ./k8s.yaml
+        kubectl wait --timeout=90s --for=condition=ready pod -l app=devsu-demo
+        kubectl describe deployment devsu
+        kubectl describe service devsu
+    - name: Test service URLs
+      run: |
+        minikube service list
+        minikube service devsu --url
+        echo "------------------opening the service------------------"
+        curl $(minikube service devsu --url)
