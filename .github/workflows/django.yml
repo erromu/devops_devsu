@@ -55,11 +55,13 @@ jobs:
       run: |
         kubectl apply -f ./k8s.yaml
         kubectl wait --timeout=90s --for=condition=ready pod -l app=devsu-demo
+        echo "------------------DEPLOYMENT------------------"
         kubectl describe deployment devsu
+        echo "------------------SERVICE------------------"
         kubectl describe service devsu
+        echo "------------------ALL SETUP------------------"
+        kubectl get all -o wide
     - name: Test service URLs
       run: |
         minikube service list
         minikube service devsu --url
-        echo "------------------opening the service------------------"
-        curl $(minikube service devsu --url)
